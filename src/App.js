@@ -1,38 +1,33 @@
 import React, { Component } from 'react';
+import { createStore, combineReducers } from 'redux';
+import TodoList from './TodoList';
+import TodoList_state from './TodoList_state';
+import Counter from './Counter_state';
 import logo from './logo.svg';
 import './App.css';
 
-const TodoList = (items) => {
-  return (
-    <div>
-      {items.length > 0 && items}
-    </div>
-  )
-}
+import { todosReducer } from './TodoReducers';
 
-// this.setState({items: <TodoItem id={1} text='text' />});
+const app = combineReducers({
+  todosReducer
+})
+const store = createStore(app);
 
-const TodoItem = (item) => {
-  return (
-    <label id={item.id}>{item.text}</label>
-  )
-}
+export { store };
 
 class App extends Component {
-  state = {
-    items: []
-  };
+  constructor(props) {
+    super(props);
+  }
 
   render() {
   
     return (
       <div className="App">
-        Todo List
-        <br/>
-        <TodoList items={this.state.items} />
-        <input />
-        <br/>
-        <button>Add Todo</button>
+        <TodoList items={store.getState().todosReducer} />
+        <TodoList_state />
+        <hr />
+        <Counter />
       </div>
     );
   }
