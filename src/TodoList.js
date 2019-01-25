@@ -23,6 +23,27 @@ const ADD_TODO = (text, id) => {
     }
 }
 
+const SHOW_ALL = () => {
+    return {
+        type: 'SET_VISIBILITY_FILTER',
+        filter: 'SHOW_ALL'
+    }
+}
+
+const SHOW_COMPLETED = () => {
+    return {
+        type: 'SET_VISIBILITY_FILTER',
+        filter: 'SHOW_COMPLETED'
+    }
+}
+
+const SHOW_INCOMPLETED = () => {
+    return {
+        type: 'SET_VISIBILITY_FILTER',
+        filter: 'SHOW_INCOMPLETED'
+    }
+}
+
 const TodoItem = (item) => {
     return (
         <li key={item.id}>
@@ -33,7 +54,20 @@ const TodoItem = (item) => {
             <button onClick={() => store.dispatch(REMOVE_TODO(item.id))}>x</button>
         </li>
     )
-  }
+}
+
+const FilterLink = ({text, func}) => {
+    return (
+        <span style={{margin: '4px'}}>
+            <a onClick={(e) => {
+                e.preventDefault();
+                store.dispatch(func())
+            }}>
+                {text}
+            </a>
+        </span>
+    )
+}
 
 let nextTodoId = 0;
 class TodoList extends Component {
@@ -49,6 +83,9 @@ class TodoList extends Component {
                 <ul>
                     {this.props.items.map(item => TodoItem(item))}
                 </ul>
+                <FilterLink text='Show All' func={SHOW_ALL}/>
+                <FilterLink text='Show Completed' func={SHOW_COMPLETED}/>
+                <FilterLink text='Show Incompleted' func={SHOW_INCOMPLETED}/>
             </div>
         )
     }

@@ -7,7 +7,7 @@ import Counter from './Counter';
 import logo from './logo.svg';
 import './App.css';
 
-import { todos, counter } from './actions';
+import { todos, counter, filter, filterTodosByOption } from './actions';
 
 /**
  * The keys used here will be the keys in the redux store
@@ -21,7 +21,8 @@ import { todos, counter } from './actions';
  */
 const app = combineReducers({
   todos,
-  counter
+  counter,
+  filter
 })
 
 const store = createStore(app);
@@ -37,7 +38,7 @@ class App extends Component {
   
     return (
       <div className="App">
-        <TodoList items={store.getState().todos} />
+        <TodoList items={filterTodosByOption(store.getState().todos, store.getState().filter)} />
         <TodoList_state />
         <hr />
         <Counter />
