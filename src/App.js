@@ -26,7 +26,7 @@ class App extends Component {
   
     return (
       <div className="App">
-        <TodoList items={store.getState().todosReducer} />
+        <TodoList items={store.getState().todos} />
         <TodoList_state />
         <hr />
         <Counter />

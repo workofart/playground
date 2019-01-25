@@ -6,7 +6,7 @@ class Counter extends Component {
         return (
             <div>
             <h1>Counter (Redux Store)</h1>
-            <h3>{store.getState().counterReducer.currentNum}</h3>
+            <h3>{store.getState().counter.currentNum}</h3>
             <button onClick={() => store.dispatch({
                 type: 'INCREMENT'
             })}>+</button>
