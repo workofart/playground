@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import { createStore, combineReducers } from 'redux';
 import TodoList from './TodoList';
 import TodoList_state from './TodoList_state';
-import Counter from './Counter_state';
+import Counter_state from './Counter_state';
+import Counter from './Counter';
 import logo from './logo.svg';
 import './App.css';
 
-import { todosReducer } from './TodoReducers';
+import { todos, counter } from './actions';
 
 const app = combineReducers({
-  todosReducer
+  todos,
+  counter
 })
 const store = createStore(app);
 
@@ -28,6 +30,7 @@ class App extends Component {
         <TodoList_state />
         <hr />
         <Counter />
+        <Counter_state />
       </div>
     );
   }

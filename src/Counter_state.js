@@ -16,7 +16,7 @@ class Counter extends Component {
     render() {
         return (
             <div>
-            <h1>Counter (State)</h1>
+            <h1>Counter (Local State)</h1>
             <h3>{this.state.currentNum}</h3>
             <button onClick={this.increment.bind(this)}>+</button>
             <button onClick={this.decrement.bind(this)}>-</button>
