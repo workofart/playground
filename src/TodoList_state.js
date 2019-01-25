@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-const TodoItem = (item) => {
+const TodoItem = (item, context) => {
     return (
       <ul>
-      <li id={item.id}>{item.text}</li>
+      <li id={item.id} onClick={() => context.removeTodo(item.id)}>{item.text}</li>
       </ul>
     )
   }
@@ -25,6 +25,16 @@ class TodoList extends Component {
         )
     }
 
+    removeTodo(targetId) {
+        this.setState(
+            (state) => {
+                return {
+                    items: state.items.filter((item) => item.id !== targetId)
+                }
+            }
+        )
+    }
+
     render() {
         return (
             <div>
@@ -34,7 +44,7 @@ class TodoList extends Component {
                 <br/>
                 <button onClick={this.addTodo.bind(this)}>Add Todo</button>
                 <br />
-                {this.state.items.map(item => TodoItem(item))}
+                {this.state.items.map(item => TodoItem(item, this))}
             </div>
         )
     }
