@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 
 const TodoItem = (item, context) => {
     return (
-      <ul>
-      <li id={item.id} onClick={() => context.removeTodo(item.id)}>{item.text}</li>
-      </ul>
+        <li key={item.id}>
+            <span 
+                onClick={() => context.toggleTodo(item.id)}
+                style={{textDecoration: item.completed ? 'line-through' : 'none'}}
+            >{item.text}</span>
+            <button onClick={() => context.removeTodo(item.id)}>x</button>
+        </li>
     )
   }
 
@@ -19,7 +23,7 @@ class TodoList extends Component {
         this.setState(
             (state) => {
                 return {
-                    items: state.items.concat([{id: nextTodoId++, text: this.textInput.value}])
+                    items: state.items.concat([{id: nextTodoId++, text: this.textInput.value, completed: false}])
                 }
             }
         )
@@ -35,6 +39,18 @@ class TodoList extends Component {
         )
     }
 
+    toggleTodo(targetId) {
+        this.setState(
+            (state) => {
+                return state.items.map((item) => {
+                    if (item.id === targetId) {
+                        item.completed = !item.completed
+                    }
+                })
+            }
+        )
+    }
+
     render() {
         return (
             <div>
@@ -42,9 +58,11 @@ class TodoList extends Component {
                 <br/>
                 <input ref={(node) => this.textInput = node} />
                 <br/>
-                <button onClick={this.addTodo.bind(this)}>Add Todo</button>
+                <button onClick={this.addTodo.bind(this)}>Add</button>
                 <br />
-                {this.state.items.map(item => TodoItem(item, this))}
+                <ul>
+                    {this.state.items.map(item => TodoItem(item, this))}
+                </ul>
             </div>
         )
     }

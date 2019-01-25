@@ -6,8 +6,13 @@ const todo = (state, action) => {
                 text: action.text,
                 completed: false
             };
-        case 'REMOVE_TODO':
-            return state.filter(todo => todo.id !== action.id)
+        case 'TOGGLE_TODO':
+            if (state.id !== action.id)
+                return state
+            return {
+                ...state,
+                completed: !state.completed
+            }
         default:
             return state;
     }
@@ -21,7 +26,9 @@ export function todos (state = [], action) {
                 todo(undefined, action)
             ];
         case 'REMOVE_TODO':
-            return todo(state, action);
+            return state.filter(todo => todo.id !== action.id)
+        case 'TOGGLE_TODO':
+            return state.map(item => todo(item, action));
         default:
             return state;
     }
@@ -30,13 +37,13 @@ export function todos (state = [], action) {
 export function counter (state = { currentNum: 0 }, action) {
     switch (action.type) {
         case 'INCREMENT':
-            return Object.assign({}, state, {
+            return {...state,
                 currentNum: state.currentNum+1
-            })
+            }
         case 'DECREMENT':
-            return Object.assign({}, state, {
+            return {...state, 
                 currentNum: state.currentNum-1
-            })
+            }
         default:
             return state;
     }
