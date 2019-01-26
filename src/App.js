@@ -30,9 +30,6 @@ const store = createStore(app);
 export { store };
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
   

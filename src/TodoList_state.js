@@ -11,12 +11,26 @@ const TodoItem = (item, context) => {
         </li>
     )
   }
+const FilterLink = ({text, func}) => {
+    return (
+        <span>
+            <a onClick={(e) => {
+                e.preventDefault();
+                func()
+            }}>
+                {text}
+            </a>
+            {' | '}
+        </span>
+    )
+}
 
 let nextTodoId = 0;
 
 class TodoList extends Component {
     state = {
-        items: []
+        items: [],
+        filteredOption: 'SHOW_ALL'
     }
 
     addTodo() {
@@ -51,7 +65,38 @@ class TodoList extends Component {
         )
     }
 
+    filterTodo(option) {
+        switch(option) {
+            case 'SHOW_ALL':
+            case 'SHOW_COMPLETED':
+            case 'SHOW_INCOMPLETED':
+                this.setState((state) => {
+                    return {
+                        filteredOption: option
+                    }
+                })
+            default:
+                return;
+        }
+    }
+
     render() {
+        let displayedItems = this.state.items
+        
+        switch(this.state.filteredOption) {
+            case 'SHOW_ALL':
+                displayedItems = this.state.items
+                break;
+            case 'SHOW_COMPLETED':
+                displayedItems = displayedItems.filter(item => item.completed);
+                break;
+            case 'SHOW_INCOMPLETED':
+                displayedItems = displayedItems.filter(item => !item.completed);
+                break;
+            default:
+                displayedItems = this.state.items
+        }
+        
         return (
             <div>
                 <h1>Todo List (Local State)</h1>
@@ -61,8 +106,11 @@ class TodoList extends Component {
                 <button onClick={this.addTodo.bind(this)}>Add</button>
                 <br />
                 <ul>
-                    {this.state.items.map(item => TodoItem(item, this))}
+                    {displayedItems.map(item => TodoItem(item, this))}
                 </ul>
+                <FilterLink text='Show All' func={() => this.filterTodo('SHOW_ALL')}/>
+                <FilterLink text='Show Completed' func={() => this.filterTodo('SHOW_COMPLETED')}/>
+                <FilterLink text='Show Incompleted' func={() => this.filterTodo('SHOW_INCOMPLETED')}/>
             </div>
         )
     }

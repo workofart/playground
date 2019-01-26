@@ -58,13 +58,14 @@ const TodoItem = (item) => {
 
 const FilterLink = ({text, func}) => {
     return (
-        <span style={{margin: '4px'}}>
+        <span>
             <a onClick={(e) => {
                 e.preventDefault();
                 store.dispatch(func())
             }}>
                 {text}
             </a>
+            {' | '}
         </span>
     )
 }
