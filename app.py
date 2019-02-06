@@ -2,17 +2,12 @@ from flask import Flask, request, make_response, render_template, session
 import pprint as pp
 
 mapObj = {}
-app = Flask(__name__)
+app = Flask(__name__)    
 app.secret_key = b'l1j13!/jk/f\190/3'
-
 
 @app.route('/')
 def index():
     return 'index page'
-
-@app.route('/hello')
-def hello():
-    return 'Hello world!'
 
 @app.route('/login', methods=['POST'])
 def login():

@@ -12,7 +12,7 @@ def test_writeToFile():
     io_functions.writeToFile(l, getPath(filename))
     with open(getPath(filename), 'r') as f:
         lines = [int(l.replace('\n', '')) for l in f.readlines()]
-        tmp.extend([12345])
+        tmp.extend([12345]) # extend is done in-place
         assert np.array_equal(lines, tmp)
 
 def test_writeToFileLbyL():
