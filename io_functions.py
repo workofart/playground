@@ -13,9 +13,3 @@ def writeToFile(data, fileName=os.path.join('data', 'temp.txt')):
         f.writelines('\n'.join(str(i) for i in data))
         f.write('\n')
         f.writelines(str(i) for i in data)
-
-
-l = [1,2,3,4,5]
-
-writeToFile(l)
-writeToFileLbyL(l, os.path.join('data', 'temp2.txt'))
