@@ -12,7 +12,6 @@ def index():
 @app.route('/login', methods=['POST'])
 def login():
     res = make_response()
-    print(session)
     if 'isAuth' in session:
         return 'Logged in as ' + str(session['uid'])
     if ((request.form.get('uid') == 'hpan' and request.form.get('pwd') == 'henry')):
@@ -20,7 +19,6 @@ def login():
         session['isAuth'] = True
         res.set_cookie('sampleCookie', 'sampleCookieVal')
         res.headers.add('sampleHeader', {'headerKey', 'headerVal'})
-        # print(request.cookies)
         return 'Logged in as hpan'
     else:
         return 'Invalid uid or pwd'
@@ -29,15 +27,16 @@ def login():
 def logout():
     if 'isAuth' in session:
         session.pop('isAuth', None)
-    return 'Logged out'
+        return 'Logged out'
+    else:
+        return 'Not logged in'
 
 
 @app.route('/postRequest/<path:subpath>/<int:id>', methods=['POST'])
 def testPost(subpath, id):
-    print('\n\nParsing parameters: ')
-    print('Method: ' + str(request.method))
-    print('Path: ' + str(request.path))
-    print('Request.form: ' + pp.pformat((request.form)))
-    print('Subpath: ' + str(subpath))
-    print('Id: ' + str(id))
-    return str(mapObj)
+    mapObj['path'] = request.path
+    mapObj['subpath'] = subpath
+    mapObj['id'] = id
+    for key in request.form:
+        mapObj[key] = request.form[key]
+    return jsonify(mapObj)

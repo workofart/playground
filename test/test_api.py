@@ -1,6 +1,6 @@
 from .index import app
 from flask import request
-import pytest
+import pytest, json
 
 # This client fixture will be called by each individual test. 
 @pytest.fixture
@@ -30,6 +30,26 @@ def test_login(client):
     assert res.data == b'Logged in as hpan'
 
 
-# TODO: json
-def test_json_response(client):
-    assert True
+def test_logout(client):
+    res = client.get('logout')
+    assert res.data == b'Not logged in'
+    
+    res = login(client)
+    assert res.data == b'Logged in as hpan'
+
+    res = client.get('logout')
+    assert res.data == b'Logged out'
+
+def test_post(client):
+    import os
+    data = dict(key='val',key2='val2')
+    subpath = 'sbpath'
+    id = 123
+    path = '/' + os.path.join('postRequest', subpath, str(id))
+    res = client.post(path, data=data).get_json()
+    totalItems = 3 + len(data)
+    assert len(res) == totalItems
+    assert res['path'] == path
+    assert res['subpath'] == subpath
+    for key in data:
+        assert res[key] == data[key]
