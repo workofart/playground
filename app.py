@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response, render_template, session
+from flask import Flask, request, make_response, render_template, session, jsonify
 import pprint as pp
 
 mapObj = {}
@@ -14,16 +14,16 @@ def login():
     res = make_response()
     print(session)
     if 'isAuth' in session:
-        return ('Logged in as ' + str(session['uid']))
-    elif ((request.form.get('uid') == 'hpan' and request.form.get('pwd') == 'henry')):
+        return 'Logged in as ' + str(session['uid'])
+    if ((request.form.get('uid') == 'hpan' and request.form.get('pwd') == 'henry')):
         session['uid'] = 'hpan'
         session['isAuth'] = True
         res.set_cookie('sampleCookie', 'sampleCookieVal')
         res.headers.add('sampleHeader', {'headerKey', 'headerVal'})
-        print(request.cookies)
-        return res
+        # print(request.cookies)
+        return 'Logged in as hpan'
     else:
-        return res
+        return 'Invalid uid or pwd'
 
 @app.route('/logout')
 def logout():
