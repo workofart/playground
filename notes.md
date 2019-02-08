@@ -52,3 +52,18 @@
 ## Pytest
 
 - Fixtures - acts as `setUp()` or `preTest()` hooks that run before tests run
+
+
+
+
+## Arrays
+
+```
+a[start:end] # items start through end-1
+a[start:]    # items start through the rest of the array
+a[:end]      # items from the beginning through end-1
+a[:]         # a copy of the whole array
+a[-1]    # last item in the array
+a[-2:]   # last two items in the array
+a[:-2]   # everything except the last two items
+```
