@@ -2,6 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Current experimented concepts:
 * Redux
+* React Router
 
 ## Available Scripts
 
