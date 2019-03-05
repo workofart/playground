@@ -1,0 +1,19 @@
+{
+  "name": "node-playground",
+  "version": "1.0.0",
+  "description": "a place to experiment new node stuff",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Henry Pan",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.5.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "lodash": "^4.17.11",
+    "natural": "^0.6.3",
+    "npm": "^6.8.0"
+  }
+}
