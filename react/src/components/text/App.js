@@ -40,7 +40,7 @@ class App extends Component{
              }
         )
         .then(res => res.json())
-        .then(res => this.setState({convertedText: res.map(t => t.token).join(' ')}))
+        .then(res => this.setState({convertedText: res.map(t => t.value).join(' ')}))
         .catch(err => console.error(err))
     }
 

@@ -1,15 +1,12 @@
-const natural = require('natural')
-
-const language = 'EN';
-const defaultCategory = 'N';
-const defaultCategoryCapitalized = 'NNP';
-const basePath = './node_modules/natural/lib/natural/brill_pos_tagger/data/English/';
-
-var lexicon = new natural.Lexicon(basePath + '/lexicon_from_posjs.json', defaultCategory, defaultCategoryCapitalized);
-var ruleSet = new natural.RuleSet(basePath + 'tr_from_posjs.txt');
+const posTagger = require('wink-pos-tagger');
+const tagger = posTagger();
 
 const removeAdj = (tokens) => {
-    return tokens.filter((token) => token.tag != 'JJ' && token.tag != 'RB')
+    return tokens.filter((token) => 
+        token.pos.indexOf('JJ') == -1 &&
+        token.pos.indexOf('RB') == -1
+        // token.pos.indexOf('VBG') == -1
+        )
 }
 
 /**
@@ -17,11 +14,8 @@ const removeAdj = (tokens) => {
  * https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html
  */
 module.exports.parse = (req, res) => {
-    var tagger = new natural.BrillPOSTagger(lexicon, ruleSet);
-    // console.log(tagger.tag(sentence));
-    var tokenizer = new natural.WordTokenizer();
-
-    // console.log(req);
-    res.send(removeAdj(tagger.tag(tokenizer.tokenize(req.body.value)).taggedWords))
+    tags = tagger.tagSentence(req.body.value);
+    // console.log(tags.map(tag => { return {value: tag.value, pos: tag.pos}}));
+    res.send(removeAdj(tags))
     // res.sendStatus(200)
 }
