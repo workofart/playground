@@ -14,14 +14,20 @@ class App extends Component{
         this.state = {
             inputVal: '',
             convertedText: '',
-            status: ''
+            node_status: '',
+            python_status: ''
         }
     }
 
     componentDidMount() {
         fetch('http://localhost:3001/api/status')
             .then(res => res.json())
-            .then(res => this.setState({status: res.status}))
+            .then(res => this.setState({node_status: res.status}))
+            .catch(err => console.error(err))
+
+            fetch('http://localhost:5000/api/status')
+            .then(res => res.json())
+            .then(res => this.setState({python_status: res.status}))
             .catch(err => console.error(err))
     }
 
@@ -53,7 +59,8 @@ class App extends Component{
             <h5>Short text</h5>
             <input ref={this.textInput} onChange={this.debouncedHandleTextChange}></input>
             <button onClick={() => this.submitText(this.textInput)}>Submit</button>
-            <p>Current status {this.state.status}</p>
+            <p>Node Server status: {this.state.node_status}</p>
+            <p>Python Server status: {this.state.python_status}</p>
             <p>{this.state.convertedText}</p>
             </div>
         )

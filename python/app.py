@@ -1,13 +1,21 @@
 from flask import Flask, request, make_response, render_template, session, jsonify
+from flask_cors import CORS
 import pprint as pp
 
 mapObj = {}
-app = Flask(__name__)    
+app = Flask(__name__)
+CORS(app)
 app.secret_key = b'l1j13!/jk/f\190/3'
 
 @app.route('/')
 def index():
     return 'index page'
+
+@app.route('/api/status')
+def status():
+    status = {}
+    status['status'] = 'OK'
+    return jsonify(status)
 
 @app.route('/login', methods=['POST'])
 def login():

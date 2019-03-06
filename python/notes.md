@@ -1,5 +1,12 @@
 # Python Notes
 
+## Flask Startup
+On Windows (Powershell)
+```
+$env:FLASK_APP = "app.py"
+flask run
+```
+
 ## Iterators
 - When you create a list, you can read its items one by one, and it’s called iteration:
 
