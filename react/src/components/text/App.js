@@ -10,8 +10,10 @@ class App extends Component{
         // This is Uncontrolled component, getting value directly from DOM
         // Reference: https://reactjs.org/docs/uncontrolled-components.html
         this.textInput = React.createRef(); 
+        this.textareaInput = React.createRef();
         this.state = {
             inputVal: '',
+            convertedText: '',
             status: ''
         }
     }
@@ -27,8 +29,19 @@ class App extends Component{
         this.setState({inputVal: this.textInput.current.value})
     }, 300)
 
-    submitJSON(e) {
-        console.log({val: this.state.inputVal})
+    submitText(ref) {
+        fetch('http://localhost:3001/api/text',
+             {
+                 method: 'POST',
+                 body: JSON.stringify({value: ref.current.value}),
+                 headers: {
+                     'Content-Type': 'application/json'
+                 }
+             }
+        )
+        .then(res => res.json())
+        .then(res => this.setState({convertedText: res.map(t => t.token).join(' ')}))
+        .catch(err => console.error(err))
     }
 
     render() {
@@ -36,11 +49,12 @@ class App extends Component{
             <div id='text-container'>
             <h5>Long text</h5>
             <textarea ref={this.textareaInput} onChange={this.debouncedHandleTextChange}></textarea>
+            <button onClick={() => this.submitText(this.textareaInput)}>Submit</button>
             <h5>Short text</h5>
             <input ref={this.textInput} onChange={this.debouncedHandleTextChange}></input>
+            <button onClick={() => this.submitText(this.textInput)}>Submit</button>
             <p>Current status {this.state.status}</p>
-            <button onClick={this.submitJSON}>Submit in JSON format</button>
-            <button onClick={this.submitText}>Submit in Text format</button>
+            <p>{this.state.convertedText}</p>
             </div>
         )
     }
